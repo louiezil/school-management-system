@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block title %} update {% endblock title %} {% block
+content %}
+<div class="form_container">
+  <form method="post">
+    <div class="input">
+      <input
+        type="text"
+        name="name"
+        required
+        placeholder="Enter Student Name"
+        minlength="4"
+        value = "{{ teacher.name }}"
+      />
+    </div>
+
+    <div class="input">
+      <input
+        type="number"
+        name="age"
+        required
+        placeholder="Enter Age"
+        min="18"
+        value = '{{teacher.age}}'
+      />
+    </div>
+
+    <button type="submit">Update</button>
+  </form>
+  {% if error %}
+  <s>{{error}}</s>
+  {% endif %}
+</div>
+{% endblock content %}

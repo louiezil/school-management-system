@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block title %}AdminDahBoard{% endblock title %} {%
+block content %}
+<div class="dash_content">
+  <div class="profile">
+    <div class="row">Name:{{profile.name}}</div>
+    <div class="row">ID:{{profile.teacher_id}}</div>
+    <div class="row">Email:{{profile.email}}</div>
+    <div class="row">Date Of Registration:{{profile.date_created}}</div>
+
+    {% if session.get('super_user') %}
+    <div class="row">Role:Super user</div>
+    {% else %}
+
+    <div class="row">Role:Admin</div>
+    {% endif %}
+  </div>
+  <div class="grid_show_3">
+    <div class="teachers">
+      <b>Assigned Teachers</b>
+
+      {% if teachers %} {% for each,info in teachers.items() %}
+      <br />
+      <a href="/teacher/profile/{{info['id']}}" class="teacher_link">
+        <div class="teacher">
+          <div class="row">Name:{{each}}</div>
+          <div class="row">ID:{{info['id']}}</div>
+          <div class="row">Email:{{info['email']}}</div>
+          <div class="row">Age:{{info['age']}}</div>
+
+          {% if info['is_admin'] %}
+          <div class="row">
+            Role:Admin
+            
+            {% if info['super_user'] %}
+              / Super user
+            {% endif %}
+              
+          </div>
+          
+
+          {% else %}
+          <div class="row">Role:Teacher</div>
+          {% endif %}
+          <div class="row">Date Of Registration:{{info['date_created']}}</div>
+        </div>
+      </a>
+      {% endfor %} {% else %}
+      <p>No Teachers To Show...</p>
+      {% endif %}
+    </div>
+    <br />
+    <div class="students">
+      <b>Registered Students</b>
+
+      {% if students %} {% for id,info in students.items() %}
+      <br />
+      <a href="/dashboard/students/{{id}}">
+        <div class="row">Name:{{info['name']}}</div>
+        <div class="row">Age:{{info['age']}}</div>
+        <div class="row">Level{{info['level']}}</div>
+        <div class="row">Lecturer:{{info['created_by']}}</div>
+        <div class="row">Date oF Registrar:{{info['date_created']}}</div>
+      </a>
+
+      {% endfor %} {% else %}
+      <p>No Students Added Yet</p>
+    <div class="register">
+      <a href="/dashboard/register_student">register</a>
+    </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

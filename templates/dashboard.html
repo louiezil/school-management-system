@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block title %} Dashboard {% endblock title %} {%
+block content %}
+<div class="dash_container">
+  <div class="profile">
+    <b>{{profile.name}} Profile</b>
+
+    <div class="row">Name:{{profile.name}}</div>
+
+    <div class="row">Age:{{profile.age}}</div>
+
+    <div class="row">Email:{{profile.email}}</div>
+
+    <div class="row">t_students:{{total_students}}</div>
+
+    <div class="row">ID:{{profile.teacher_id}}</div>
+
+    {% if profile.is_admin %}
+    <div class="row">role:Admin</div>
+    {% else %}
+    <div class="row">role:Teacher</div>
+    {% endif %}
+
+    <!--  -->
+    <br>
+  {% if session['is_admin'] %} {% if profile.is_admin %}
+  <form action="/permission/{{profile.teacher_id}}" class="form" method="post">
+    <button class="btn" type="submit">Admin Permission Strip</button>
+  </form>
+  {% else %}
+  <form action="/permission/{{profile.teacher_id}}" class="form" method="post">
+    <button class="btn" type="submit">Grant Admin Permission </button>
+  </form>
+  {% endif %} {% endif %}
+  
+  
+
+  {% if session['is_admin'] %}
+  <form action="/activation/{{profile.teacher_id}}" class="form" method="post">
+    <button class="btn" type="submit">
+      
+      {% if profile.is_active %}
+     De-activate Teacher
+      {% else %}
+       Activate Teacher
+        
+      {% endif %}
+        
+    </button>
+  </form>
+    
+  <form action="/deletion/{{profile.teacher_id}}" class="form" method="post" onsubmit="return confirm('do you really want to Delete Teacher')">
+    <button class="btn" type="submit" >
+      Delete Teacher
+    </button>
+  </form>
+  <a href="/Update/{{profile.teacher_id}}">Update Teacher</a>
+  {% endif %}
+    
+  </div>
+<br>
+
+  <div class="students">
+    <b>My Assigned Students</b>
+
+    {% if teacher_students %} {% for each ,info in teacher_students.items() %}
+
+    <a href="/dashboard/students/{{info['id']}}">
+      <div class="row">Name:{{each}}</div>
+      <div class="row">age:{{info['age']}}</div>
+      <div class="row">Level:{{info['level']}}</div>
+    </a>
+    <br />
+
+    {% endfor %}
+    <div class="register">
+      <p>register a New Student</p>
+      <a href="/dashboard/register_student">register</a>
+    </div>
+
+    {% else %}
+    <p>No Students Added Yet</p>
+    <div class="register">
+      <a href="/dashboard/register_student">register</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

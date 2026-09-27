@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% block title %} Update{{name}} {% endblock title %}
+{% block content %}
+<div class="update_container">
+  <form class="form" method="post">
+    <input
+      type="text"
+      name="name"
+      required
+      minlength="4"
+      placeholder="Enter New Name"
+      value="{{name}}"
+    />
+
+    <input
+      type="number"
+      name="age"
+      required
+      min="18"
+      placeholder="Enter Age"
+      value="{{age}}"
+    />
+    <input
+      type="number"
+      min="100"
+      required
+      name="level"
+      placeholder="Enter level"
+      value="{{level}}"
+    />
+    <button class="btn" type="submit">Submit</button>
+  </form>
+  
+  {% if error %}
+    <p>{{error}}</p>
+  {% endif %}
+    
+</div>
+{% endblock content %}

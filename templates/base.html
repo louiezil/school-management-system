@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename ='css/style.css')}}"
+    />
+    <title>{% block title %} {% endblock title %}</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">LöG0</div>
+        <div class="log">
+          {% if 'teacher_id' in session %}
+          <form action="/logout" method="post">
+            <button type="submit">LogOut</button>
+          </form>
+          
+          {% if session.get('is_admin') %}
+          <a href="/register">Register Teacher</a>
+          {% endif %}
+            
+          {% else %}
+          <a href="/login">LogIn</a>
+          
+          {% endif %}
+        </div>
+      </div>
+
+      {% block content %} {% endblock content %}
+
+      <div class="footer">
+        <s>sMs 2026@</s>
+        <s>footer </s>
+      </div>
+    </div>
+  </body>
+</html>

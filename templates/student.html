@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %} {{name}}Page {% endblock title %} {%
+block content %}
+<div class="student_container">
+  <div class="profile">
+    <div class="row">Name:{{student.name}}</div>
+    <div class="row">Age:{{student.age}}</div>
+    <div class="row">level:{{student.level}}</div>
+    <div class="row">ID:{{student.student_id}}</div>
+    <div class="row">Date Of Registration:{{student.date_created}}</div>
+  </div>
+  <div class="update">
+    <p>Update the Students</p>
+    <a href="/dashboard/students/{{student.student_id}}/update">Update</a>
+
+    <form
+      action="/delete/student/{{student.student_id}}"
+      class="form"
+      method="post"
+      onsubmit="return confirm('do you really want to delete student');"
+    >
+      <button class="btn" type="submit">Delete student</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

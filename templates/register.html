@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block title %} register {% endblock title %} {%
+block content %}
+<div class="form_container">
+  <form method="post">
+    <div class="input">
+      <input
+        type="text"
+        name="name"
+        required
+        placeholder="Enter UserName"
+        minlength="4"
+      />
+    </div>
+
+    <div class="input">
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="Enter Email"
+        minlength="12"
+      />
+    </div>
+
+    <div class="input">
+      <input
+        type="password"
+        name="password"
+        required
+        placeholder="Enter password"
+        minlength="5"
+      />
+    </div>
+
+    <div class="input">
+      <input
+        type="number"
+        min="18"
+        name="age"
+        required
+        placeholder="Enter Age"
+      />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  {% if error %}
+  <s>{{error}}</s>
+  {% endif %}
+</div>
+{% endblock content %}
