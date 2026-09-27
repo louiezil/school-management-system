@@ -13,12 +13,42 @@ from actions import (
     deletion,
     delete_student,
 )
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.secret_key = "the_random_secret"
 
 conn, cursor = conn_cursor()
 create_tables(conn, cursor)
+
+
+name = "louie"
+age = 23
+email = f"{name}@gmail.com"
+password = "password"
+is_admin = True
+super_user = True
+hw_password = generate_password_hash(password)
+try:
+    cursor.execute(
+        "SELECT * FROM teachers WHERE name = ? AND super_user =?",
+        (name, super_user),
+    )
+    if not cursor.fetchone():
+        cursor.execute(
+            "INSERT INTO teachers(name,age,email,is_admin,super_user,password)VALUES(?,?,?,?,?,?)",
+            (
+                name,
+                age,
+                email,
+                is_admin,
+                super_user,
+                hw_password,
+            ),
+        )
+        conn.commit()
+except Exception as e:
+    print(f"error:{e}")
 
 
 def Login_required(f):
@@ -139,9 +169,9 @@ def dashBoard(teacher_id):
 
     teacher_data = get_teacher(cursor, teacher_id)
     if teacher_data.super_user:
-         return 'cant view a super User',403
-    if  not session.get('is_admin') and (teacher_data.is_admin):
-         return 'cant View an Admin profile '
+        return "cant view a super User", 403
+    if not session.get("is_admin") and (teacher_data.is_admin):
+        return "cant View an Admin profile "
     students_disc, total_students = teacher_students(cursor, teacher_id)
     if not teacher_data:
         return "No data Found", 403
@@ -431,5 +461,6 @@ def update_teacher_details(teacher_id):
 
 if __name__ == "__main__":
     import os
+
     debug = os.environ.get("DEBUG", "false").lower() == "true"
     app.run(debug=debug)
