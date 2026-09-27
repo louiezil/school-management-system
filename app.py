@@ -32,7 +32,7 @@ hw_password = generate_password_hash(password)
 try:
     cursor.execute(
         "SELECT * FROM teachers WHERE name = ? AND super_user =?",
-        (name, super_user),
+        (name, super_user,),
     )
     if not cursor.fetchone():
         cursor.execute(
